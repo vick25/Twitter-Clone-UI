@@ -1,0 +1,24 @@
+<aside class="h-screen w-full flex flex-col space-y-8 border-r-[1px] border-solid border-[#ccc] p-8">
+    <div><a href="/"><img src="/resources/images/x.png" /></a></div>
+    <div class="flex flex-col space-y-2">
+        <ul role="menu" class="flex flex-col space-y-8 text-md font-bold">
+            <li class="hover:bg-gray-200">
+                <a href="/" class="flex items-center gap-4">
+                    <span><img src="/resources/images/home.png"></span>
+                    Home
+                </a>
+            </li>
+            <li class="hover:bg-gray-200">
+                <a href="{{route('profile')}}" class="flex items-center gap-4">
+                    <span><img src="/resources/images/profile.png"></span>
+                    Profile
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="text-center">
+        <button class="w-full bg-[#1D9BF0] hover:bg-blue-600 text-white rounded-full p-4 font-bold text-xl">T
+            weet
+        </button>
+    </div>
+</aside>
