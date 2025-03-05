@@ -73,6 +73,7 @@
     <main class="grid grid-cols-[1fr_2fr_1fr]">
         @include('pages/sidebar')
         {{{ await $slots.main() }}}
+        @include('pages/sidebar-right')
     </main>
 </body>
 
