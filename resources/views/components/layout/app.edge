@@ -70,9 +70,10 @@
 </head>
 
 <body class="min-h-screen w-screen font-sans">
-    <main class="grid grid-cols-[1fr_2fr_1fr]">
+    <main class="grid grid-cols-[1fr_2fr_1fr] max-w-7xl mx-auto">
         @include('pages/sidebar')
         {{{ await $slots.main() }}}
+        @include('pages/sidebar-right')
     </main>
 </body>
 

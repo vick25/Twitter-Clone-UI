@@ -1,15 +1,25 @@
 @layout.app({title : 'Home'})
 <div class="flex flex-col space-y-8 py-6">
-  <div class="text-xl font-bold border-b-[1px] border-solid border-[#ccc] p-4">Home</div>
-  <div class="px-4">
+  <div class="text-xl font-bold border-b border-gray-200 p-4">Home</div>
+  <div class="">
+    <div class="flex items-start border-b space-x-4 px-4 pb-6">
+      <img class="w-10 h-10 rounded" alt="Avatar">
+      <form method="post" action="" class="flex-1 ml-3 space-y-3">
+        {{ csrfField() }}
+        <input type="text" class="w-full pb-8 border-b" placeholder="What's happening" name="tweet" />
+        <div class="flex justify-end">
+          <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Post</button>
+        </div>
+      </form>
+    </div>
     <ul class="text-lg text-sand-11 shortLinks">
       @each(tweet in tweets)
-      <li class="border-b-[1px] border-solid border-[#ccc] pt-2 pb-6">
+      <li class="border-b border-gray-200 pt-2 px-4 pb-6 hover:bg-gray-50/75">
         <div class="flex w-full space-x-4">
           <img class="w-10 h-10 rounded" alt="Avatar">
           <div class="flex-1 ml-3 space-y-1">
-            <p class="flex-1">{{ tweet.content}}</p>
-            <p class="text-xs text-gray-500">{{ tweet.createdAt}}</p>
+            <p class="flex-1">{{ tweet.content }}</p>
+            <p class="text-xs text-gray-500">{{ tweet.createdAt }}</p>
           </div>
         </div>
       </li>
