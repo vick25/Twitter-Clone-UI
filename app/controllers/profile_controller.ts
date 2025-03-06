@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { User, users } from './home_controller.js';
+import { User, users } from '../../utils/samples.js';
 
 export default class ProfileController {
 
@@ -10,7 +10,6 @@ export default class ProfileController {
             user = users.find(u => u.username === username) as User
         else
             user = users[0]
-        console.log(user)
         return view.render('pages/profile', { user });
     }
 } 
