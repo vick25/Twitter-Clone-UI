@@ -70,10 +70,16 @@
 </head>
 
 <body class="min-h-screen w-screen font-sans">
-    <main class="grid grid-cols-[1fr_2fr_1fr] max-w-7xl mx-auto">
-        @include('pages/sidebar')
-        {{{ await $slots.main() }}}
-        @include('pages/sidebar-right')
+    <main class="grid grid-cols-[1fr_2fr_1fr] max-w-7xl mx-auto h-screen relative items-start">
+        <aside id="sidebar-left" class="min-h-screen sticky relative border-r border-gray-200">
+            @include('pages/sidebar')
+        </aside>
+        <section class="col-start-2 col-end-3">
+            {{{ await $slots.main() }}}
+        </section>
+        <aside id="sidebar-right" class="min-h-screen sticky border-l border-gray-200">
+            @include('pages/sidebar-right')
+        </aside>
     </main>
 </body>
 

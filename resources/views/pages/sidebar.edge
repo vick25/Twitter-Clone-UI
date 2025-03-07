@@ -1,53 +1,50 @@
-<aside class="min-h-screen">
-    {{-- <div class="fixed h-full"> --}}
-        <div class="h-full flex flex-col space-y-8 border-r border-gray-200 p-8">
-            <div class="p-2"><a href="/"><img src="/resources/images/x.png" class="grayscale"></a></div>
-            <div class="flex flex-col justify-between h-full">
-                <div class="flex flex-col space-y-2">
-                    <ul role="menu" class="flex flex-col space-y-8 text-md font-bold">
-                        <li class="p-2 hover:bg-gray-200">
-                            <a href="/" class="flex items-center gap-4">
-                                <span><img src="/resources/images/home.png" class="grayscale"></span>
-                                Home
-                            </a>
-                        </li>
-                        <li class="p-2 hover:bg-gray-200">
-                            <a href="{{route('profile')}}" class="flex items-center gap-4">
-                                <span><img src="/resources/images/profile.png"></span>
-                                Profile
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="text-center">
-                        <button
-                            class="w-full my-8 bg-[#1D9BF0] hover:bg-blue-600 text-white rounded-full p-4 font-bold text-xl">
-                            Tweet
-                        </button>
-                    </div>
+<div class="fixed h-full">
+    <div class="h-full flex flex-col space-y-8 p-8">
+        <div class="p-2"><a href="/"><img src="/resources/images/x.png" class="grayscale"></a></div>
+        <div class="flex flex-col justify-between h-full">
+            <div class="flex flex-col space-y-2">
+                <ul role="menu" class="flex flex-col space-y-8 text-md font-bold">
+                    <li class="p-2 hover:bg-gray-200">
+                        <a href="/" class="flex items-center gap-4">
+                            <span><img src="/resources/images/home.png" class="grayscale"></span>
+                            Home
+                        </a>
+                    </li>
+                    <li class="p-2 hover:bg-gray-200">
+                        <a href="{{route('profile')}}" class="flex items-center gap-4">
+                            <span><img src="/resources/images/profile.png"></span>
+                            Profile
+                        </a>
+                    </li>
+                </ul>
+                <div class="text-center">
+                    <button
+                        class="w-full my-8 bg-[#1D9BF0] hover:bg-blue-600 text-white rounded-full p-4 font-bold text-xl">
+                        Tweet
+                    </button>
                 </div>
-                <div class="flex items-center justify-between mt-auto p-3 px-4 text-white">
-                    <img src="profile.jpg" alt="User Avatar" class="w-10 h-10 rounded-full grayscale">
-                    <div>
-                        <div class="flex items-center space-x-1">
-                            <span class="font-semibold text-gray-300">Victor Kadiata</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
-                                class="w-4 h-4 text-gray-400">
-                                <path
-                                    d="M12 2a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1V7a5 5 0 0 1 5-5zm3 6V7a3 3 0 1 0-6 0v1zm3 2H6v8h12z" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-500">@vickad25</p>
-                    </div>
-                    <div class="ml-auto text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
-                            <circle cx="12" cy="12" r="2" />
-                            <circle cx="19" cy="12" r="2" />
-                            <circle cx="5" cy="12" r="2" />
+            </div>
+            <div class="flex items-center justify-between mt-auto p-3 px-4 text-white">
+                <img src="profile.jpg" alt="User Avatar" class="w-10 h-10 rounded-full grayscale">
+                <div>
+                    <div class="flex items-center space-x-1">
+                        <span class="font-semibold text-gray-300">Victor Kadiata</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
+                            class="w-4 h-4 text-gray-400">
+                            <path
+                                d="M12 2a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1V7a5 5 0 0 1 5-5zm3 6V7a3 3 0 1 0-6 0v1zm3 2H6v8h12z" />
                         </svg>
                     </div>
+                    <p class="text-gray-500">@vickad25</p>
+                </div>
+                <div class="ml-auto text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                        <circle cx="12" cy="12" r="2" />
+                        <circle cx="19" cy="12" r="2" />
+                        <circle cx="5" cy="12" r="2" />
+                    </svg>
                 </div>
             </div>
         </div>
-        {{--
-    </div> --}}
-</aside>
+    </div>
+</div>

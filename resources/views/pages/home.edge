@@ -1,66 +1,65 @@
 @layout.app({title : 'Home'})
 <div class="flex flex-col space-y-8 py-6">
   <div class="text-xl font-bold border-b border-gray-200 p-4">Home</div>
-  <div class="">
-    <div class="flex items-start border-b space-x-4 px-4 pb-6">
-      <img class="w-10 h-10 rounded" alt="Avatar">
-      <form method="post" action="" class="flex-1 ml-3 space-y-3">
-        {{ csrfField() }}
-        <textarea type="text" class="w-full px-4 py-1 resize-none border-b border-gray-200 rounded-lg text-sm" rows="3"
-          placeholder="What's happening" name="tweet"></textarea>
-        <div class="flex justify-end">
-          <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Post</button>
-        </div>
-      </form>
-    </div>
-    <ul class="text-lg text-sand-11 shortLinks">
-      @each(tweet in userTweets)
-      {{-- Get the associated user of the tweets --}}
-      <li class="border-b border-gray-200 pt-2 px-4 pb-6 hover:bg-gray-50/75">
-        <div class="flex w-full space-x-4">
-          <img class="w-10 h-10 rounded" alt="Avatar">
-          <div class="ml-3 space-y-2">
-            <a class="flex items-center space-x-1" href="{{ route('profile', {username: `${currentUser?.username}`})}}">
-              <div class="font-bold text-sm text-gray-800">{{ `${currentUser?.firstname} ${currentUser?.lastname}` }}
-              </div>
-              <span class="text-gray-500 text-sm">{{`@${currentUser?.username}`}}</span>
-              <span class="text-gray-500 text-xs">·</span>
-              <p class="text-xs text-gray-500">{{ tweet.createdAt }}</p>
-            </a>
-            <p class="flex-1 text-md">{{ tweet.content }}</p>
+  <div class="flex items-start border-b space-x-4 px-4 pb-6">
+    <img class="w-10 h-10 rounded" alt="Avatar">
+    <form method="post" action="" class="flex-1 ml-3 space-y-3">
+      {{ csrfField() }}
+      <textarea type="text" class="w-full px-4 py-1 resize-none border-b border-gray-200 rounded-lg text-sm" rows="3"
+        placeholder="What's happening" name="tweet"></textarea>
+      <div class="flex justify-end">
+        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Post</button>
+      </div>
+    </form>
+  </div>
+  <ul class="text-lg text-sand-11 shortLinks">
+    @each(tweet in userTweets)
+    {{-- Get the associated user of the tweets --}}
+    <li class="border-b border-gray-200 pt-2 px-4 pb-6 hover:bg-gray-50/75">
+      <div class="flex w-full space-x-4">
+        <img class="w-10 h-10 rounded" alt="Avatar">
+        <div class="ml-3 space-y-2">
+          <a class="flex items-center space-x-1" href="{{ route('profile', {username: `${currentUser?.username}`})}}">
+            <div class="font-bold text-sm text-gray-800">{{ `${currentUser?.firstname} ${currentUser?.lastname}` }}
+            </div>
+            <span class="text-gray-500 text-sm">{{`@${currentUser?.username}`}}</span>
+            <span class="text-gray-500 text-xs">·</span>
+            <p class="text-xs text-gray-500">{{ tweet.createdAt }}</p>
+          </a>
+          <p class="flex-1 text-md">{{ tweet.content }}</p>
 
-            {{-- Buttons --}}
-            <div class="flex items-center justify-between text-gray-400 text-sm pt-1">
-              <div class="flex items-center space-x-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="200" height="200" viewBox="0 0 28 24">
-                  <path fill="currentColor"
-                    d="m14 2l-.128-.001c-2.098 0-4.102.399-5.942 1.124l.11-.038a11.285 11.285 0 0 0-4.4 2.922l-.007.007A5.884 5.884 0 0 0 2 9.994v.005a5.677 5.677 0 0 0 1.131 3.351l-.011-.015a9.584 9.584 0 0 0 3.096 2.719l.049.025l1.36.782l-.426 1.498A11.174 11.174 0 0 1 6.077 21.1l.029-.054a15.466 15.466 0 0 0 4.313-2.686l-.017.014l.672-.594l.89.094a17.07 17.07 0 0 0 2.028.125h.004l.128.001c2.098 0 4.102-.399 5.942-1.124l-.11.038a11.285 11.285 0 0 0 4.4-2.922l.007-.007c1.009-1.025 1.632-2.432 1.632-3.984s-.623-2.96-1.633-3.985l.001.001a11.245 11.245 0 0 0-4.329-2.904l-.078-.025c-1.73-.687-3.735-1.086-5.833-1.086l-.132.001h.007zm14 8a7.762 7.762 0 0 1-1.884 5.033l.009-.01a12.716 12.716 0 0 1-5.008 3.611l-.086.03c-2.023.846-4.374 1.337-6.839 1.337L13.99 20H14c-.8-.002-1.588-.047-2.363-.134l.097.009a17.021 17.021 0 0 1-7.069 3.756l-.118.026c-.503.145-1.107.266-1.726.339l-.055.005h-.08a.621.621 0 0 1-.422-.164a.81.81 0 0 1-.249-.424l-.001-.005v-.016a.201.201 0 0 1-.027-.102c0-.033.008-.063.021-.091l-.001.001a.406.406 0 0 0 .031-.159v-.002q-.008-.031.07-.149l.094-.141l.11-.133l.125-.141q.11-.125.484-.539l.539-.594q.164-.18.484-.617c.174-.231.343-.493.491-.767l.017-.033q.187-.359.422-.922c.137-.317.276-.712.39-1.117l.017-.07a11.573 11.573 0 0 1-3.844-3.405l-.024-.035A7.524 7.524 0 0 1-.001 9.999v-.002a7.762 7.762 0 0 1 1.884-5.033l-.009.01a12.716 12.716 0 0 1 5.008-3.611l.086-.03C8.991.487 11.342-.004 13.807-.004l.202.001h-.01l.192-.001c2.465 0 4.816.491 6.959 1.381l-.12-.044a12.734 12.734 0 0 1 5.078 3.622l.015.018a7.754 7.754 0 0 1 1.875 5.021v.003z" />
-                </svg>
-                <span>26</span>
-              </div>
+          {{-- Buttons --}}
+          <div class="flex items-center justify-between text-gray-400 text-sm pt-1">
+            <div class="flex items-center space-x-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="200" height="200" viewBox="0 0 28 24">
+                <path fill="currentColor"
+                  d="m14 2l-.128-.001c-2.098 0-4.102.399-5.942 1.124l.11-.038a11.285 11.285 0 0 0-4.4 2.922l-.007.007A5.884 5.884 0 0 0 2 9.994v.005a5.677 5.677 0 0 0 1.131 3.351l-.011-.015a9.584 9.584 0 0 0 3.096 2.719l.049.025l1.36.782l-.426 1.498A11.174 11.174 0 0 1 6.077 21.1l.029-.054a15.466 15.466 0 0 0 4.313-2.686l-.017.014l.672-.594l.89.094a17.07 17.07 0 0 0 2.028.125h.004l.128.001c2.098 0 4.102-.399 5.942-1.124l-.11.038a11.285 11.285 0 0 0 4.4-2.922l.007-.007c1.009-1.025 1.632-2.432 1.632-3.984s-.623-2.96-1.633-3.985l.001.001a11.245 11.245 0 0 0-4.329-2.904l-.078-.025c-1.73-.687-3.735-1.086-5.833-1.086l-.132.001h.007zm14 8a7.762 7.762 0 0 1-1.884 5.033l.009-.01a12.716 12.716 0 0 1-5.008 3.611l-.086.03c-2.023.846-4.374 1.337-6.839 1.337L13.99 20H14c-.8-.002-1.588-.047-2.363-.134l.097.009a17.021 17.021 0 0 1-7.069 3.756l-.118.026c-.503.145-1.107.266-1.726.339l-.055.005h-.08a.621.621 0 0 1-.422-.164a.81.81 0 0 1-.249-.424l-.001-.005v-.016a.201.201 0 0 1-.027-.102c0-.033.008-.063.021-.091l-.001.001a.406.406 0 0 0 .031-.159v-.002q-.008-.031.07-.149l.094-.141l.11-.133l.125-.141q.11-.125.484-.539l.539-.594q.164-.18.484-.617c.174-.231.343-.493.491-.767l.017-.033q.187-.359.422-.922c.137-.317.276-.712.39-1.117l.017-.07a11.573 11.573 0 0 1-3.844-3.405l-.024-.035A7.524 7.524 0 0 1-.001 9.999v-.002a7.762 7.762 0 0 1 1.884-5.033l-.009.01a12.716 12.716 0 0 1 5.008-3.611l.086-.03C8.991.487 11.342-.004 13.807-.004l.202.001h-.01l.192-.001c2.465 0 4.816.491 6.959 1.381l-.12-.044a12.734 12.734 0 0 1 5.078 3.622l.015.018a7.754 7.754 0 0 1 1.875 5.021v.003z" />
+              </svg>
+              <span>26</span>
+            </div>
 
-              <div class="flex items-center space-x-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="200" height="200" viewBox="0 0 576 512">
-                  <path fill="currentColor"
-                    d="M272 416c17.7 0 32-14.3 32-32s-14.3-32-32-32H160c-17.7 0-32-14.3-32-32V192h32c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-64-64c-12.5-12.5-32.8-12.5-45.3 0l-64 64c-9.2 9.2-11.9 22.9-6.9 34.9S19.1 192 32.1 192h32v128c0 53 43 96 96 96H272zm32-320c-17.7 0-32 14.3-32 32s14.3 32 32 32h112c17.7 0 32 14.3 32 32v128h-32c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l64 64c12.5 12.5 32.8 12.5 45.3 0l64-64c9.2-9.2 11.9-22.9 6.9-34.9S556.9 320 543.9 320h-32V192c0-53-43-96-96-96H304z" />
-                </svg>
-                <span>44</span>
-              </div>
+            <div class="flex items-center space-x-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="200" height="200" viewBox="0 0 576 512">
+                <path fill="currentColor"
+                  d="M272 416c17.7 0 32-14.3 32-32s-14.3-32-32-32H160c-17.7 0-32-14.3-32-32V192h32c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-64-64c-12.5-12.5-32.8-12.5-45.3 0l-64 64c-9.2 9.2-11.9 22.9-6.9 34.9S19.1 192 32.1 192h32v128c0 53 43 96 96 96H272zm32-320c-17.7 0-32 14.3-32 32s14.3 32 32 32h112c17.7 0 32 14.3 32 32v128h-32c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l64 64c12.5 12.5 32.8 12.5 45.3 0l64-64c9.2-9.2 11.9-22.9 6.9-34.9S556.9 320 543.9 320h-32V192c0-53-43-96-96-96H304z" />
+              </svg>
+              <span>44</span>
+            </div>
 
-              <div class="flex items-center space-x-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd"
-                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                    clip-rule="evenodd" />
-                </svg>
-                <span>1.8K</span>
-              </div>
+            <div class="flex items-center space-x-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                  clip-rule="evenodd" />
+              </svg>
+              <span>1.8K</span>
             </div>
           </div>
         </div>
-      </li>
-      @end
-    </ul>
-  </div>
+      </div>
+    </li>
+    @end
+  </ul>
+</div>
 </div>
 @end
