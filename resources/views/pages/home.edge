@@ -1,11 +1,13 @@
 @layout.app({title : 'Home'})
-<div class="flex flex-col space-y-8 py-6">
-  <div class="text-xl font-bold border-b border-gray-200 p-4">Home</div>
-  <div class="flex items-start border-b space-x-4 px-4 pb-6">
+<div class="flex flex-col">
+  <div class="sticky top-0 z-10 bg-gray-900 border-b-[1px] border-gray-600">
+    <div class="text-xl font-bold px-4 pb-4 pt-8">Home</div>
+  </div>
+  <div class="flex items-start border-b-[1px] border-gray-600 space-x-4 p-4 mt-4">
     <img class="w-10 h-10 rounded" alt="Avatar">
-    <form method="post" action="{{route('tweet')}}" class="flex-1 ml-3 space-y-3">
+    <form method="post" action="{{ route('tweet')}}" class="flex-1 ml-3 space-y-2">
       {{ csrfField() }}
-      <textarea type="text" class="w-full px-4 py-1 resize-none border-b border-gray-200 rounded-lg text-sm" rows="3"
+      <textarea class="w-full px-4 resize-none border-none bg-transparent rounded-lg text-sm" rows="3"
         placeholder="What's happening" name="tweet"></textarea>
       <div class="flex justify-end">
         <button type="submit"
@@ -13,17 +15,18 @@
       </div>
     </form>
   </div>
-  <ul class="text-lg text-sand-11 shortLinks">
-    @each(tweet in userTweets)
+  <ul class="text-lg mt-[0px]">
+    @each(tweet in tweets)
     {{-- Get the associated user of the tweets --}}
-    <li class="border-b border-gray-200 pt-2 px-4 pb-6 hover:bg-gray-50/75">
-      <div class="flex w-full space-x-4">
+    <li class="border-b-[1px] border-gray-600 px-4 py-5 hover:bg-gray-900/75 cursor-pointer">
+      <div class="w-full flex space-x-4">
         <img class="w-10 h-10 rounded" alt="Avatar">
-        <div class="ml-3 space-y-2">
+        <div class="ml-3 flex-1 space-y-2">
           <a class="flex items-center space-x-1" href="{{ route('profile', {username: `${currentUser?.username}`})}}">
-            <div class="font-bold text-sm text-gray-800">{{ `${currentUser?.firstname} ${currentUser?.lastname}` }}
+            <div class="font-bold text-sm">{{ `${users[tweet.user]?.firstname || currentUser?.firstname}
+              ${users[tweet.user]?.lastname || currentUser?.lastname}` }}
             </div>
-            <span class="text-gray-500 text-sm">{{`@${currentUser?.username}`}}</span>
+            <span class="text-gray-500 text-sm">{{`@${users[tweet.user]?.username || currentUser?.username}`}}</span>
             <span class="text-gray-500 text-xs">·</span>
             <p class="text-xs text-gray-500">{{ tweet.createdAt }}</p>
           </a>
@@ -61,6 +64,5 @@
     </li>
     @end
   </ul>
-</div>
 </div>
 @end

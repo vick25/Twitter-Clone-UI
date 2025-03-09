@@ -16,7 +16,7 @@ export default class ProfileController {
         else
             user = users[0]
 
-        const userTweets = getTweetsForUser(user.id);
+        const userTweets = getTweetsForUser(user?.id);
         // console.log(userTweets)
         return view.render('pages/profile', { user, userTweets });
     }
