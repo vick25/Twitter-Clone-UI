@@ -1,10 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { tweets, User, users } from '../../utils/samples.js';
-
-function getUserFromTweet(userTweetID?: number) {
-    const userTweet = users.find(user => user.id === userTweetID);
-    return userTweet;
-}
+import { tweets, users } from '../../utils/samples.js';
 
 // function getUserFromTweet(userTweetID?: number) : User | undefined{
 //     const userTweet = users.find(user => user.id === userTweetID);
