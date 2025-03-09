@@ -3,12 +3,13 @@
   <div class="text-xl font-bold border-b border-gray-200 p-4">Home</div>
   <div class="flex items-start border-b space-x-4 px-4 pb-6">
     <img class="w-10 h-10 rounded" alt="Avatar">
-    <form method="post" action="" class="flex-1 ml-3 space-y-3">
+    <form method="post" action="{{route('tweet')}}" class="flex-1 ml-3 space-y-3">
       {{ csrfField() }}
       <textarea type="text" class="w-full px-4 py-1 resize-none border-b border-gray-200 rounded-lg text-sm" rows="3"
         placeholder="What's happening" name="tweet"></textarea>
       <div class="flex justify-end">
-        <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Post</button>
+        <button type="submit"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Post</button>
       </div>
     </form>
   </div>

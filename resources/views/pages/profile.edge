@@ -10,8 +10,8 @@
             </svg>
         </a>
         <div class="text-xl font-bold p-4">
-            <p>Username</p>
-            <p class="text-xs text-gray-500">Posts</p>
+            <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
+            <p class="text-xs text-gray-500">{{ userTweets.length}} posts</p>
         </div>
     </div>
     <div class="bg-gray-300 h-48 border-b">
@@ -45,7 +45,7 @@
         </ul>
 
         <ul class="text-lg text-sand-11 shortLinks">
-            @each(tweet in tweets)
+            @each(tweet in userTweets)
             <li class="border-b border-gray-200 pt-2 px-4 pb-6 hover:bg-gray-50/75">
                 <div class="flex w-full space-x-4">
                     <img class="w-10 h-10 rounded" alt="Avatar">
