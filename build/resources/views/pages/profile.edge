@@ -1,0 +1,64 @@
+@layout.app({title : 'Profile'})
+<div class="flex flex-col space-y-0">
+    <div class="sticky top-0 z-10 bg-gray-900 border-b-[1px] border-gray-600">
+        <div class="flex items-center space-x-4 px-4 border-b">
+            {{-- Back button--}}
+            <a href="{{ route('home') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M7.793 7.707a1 1 0 010 1.414L5.414 10h11.172a1 1 0 110 2H5.414l2.379 2.379a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                        clip-rule="evenodd" />
+                </svg>
+            </a>
+            <div class="text-xl font-bold p-4">
+                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
+                <p class="text-xs text-gray-500">{{ userTweets.length}} posts</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-gray-300 h-48 border-b">
+
+    </div>
+    <div class="relative text-white">
+        <img class="absolute -translate-y-[50%] max-w-full left-8 w-32 h-32 object-cover rounded-full"
+            src="/resources/images/avatar.webp" alt="Profile picture">
+        <div class="flex justify-end p-4">
+            <button
+                class="bg-transparent outline outline-offset-2 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full">Edit
+                profile</button>
+        </div>
+        <div class="flex flex-col space-y-4 p-4">
+            <div>
+                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
+                <p class="text-xs text-gray-500">{{`@${user?.username}`}}</p>
+            </div>
+
+            <p>{{user?.bio}}</p>
+            <p>{{user?.createdAt}}</p>
+            <div class="flex space-x-4">
+                <p>Following</p>
+                <p>Followers</p>
+            </div>
+        </div>
+
+        <ul role="menu" class="flex space-x-4 text-gray-400 border-b border-gray-800">
+            <li class="p-4">Posts</li>
+            <li class="p-4">Likes</li>
+        </ul>
+
+        <ul class="text-lg">
+            @each(tweet in userTweets)
+            <li class="border-b border-gray-800 pt-2 px-4 pb-6 hover:bg-gray-50/75">
+                <div class="flex w-full space-x-4">
+                    <img class="w-10 h-10 rounded" alt="Avatar">
+                    <div class="flex-1 ml-3 space-y-1">
+                        <p class="flex-1">{{ tweet.content }}</p>
+                        <p class="text-xs text-gray-500">{{ tweet.createdAt }}</p>
+                    </div>
+                </div>
+            </li>
+            @end
+        </ul>
+    </div>
+</div>
+@end
