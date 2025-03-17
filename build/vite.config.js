@@ -7,5 +7,8 @@ export default defineConfig({
             reload: ['resources/views/**/*.edge'],
         }),
     ],
+    build: {
+        manifest: true
+    }
 });
 //# sourceMappingURL=vite.config.js.map
