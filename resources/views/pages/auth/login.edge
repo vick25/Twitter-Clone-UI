@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+        Login
+    </title>
+
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --sand-1: #fdfdfc;
+            --sand-2: #f9f9f8;
+            --sand-3: #f1f0ef;
+            --sand-4: #e9e8e6;
+            --sand-5: #e2e1de;
+            --sand-6: #dad9d6;
+            --sand-7: #cfceca;
+            --sand-8: #bcbbb5;
+            --sand-9: #8d8d86;
+            --sand-10: #82827c;
+            --sand-11: #63635e;
+            --sand-12: #21201c;
+        }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com">
+
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ["Instrument Sans", "sans-serif"]
+                    },
+                    colors: {
+                        primary: {
+                            DEFAULT: "#5A45FF",
+                            lighter: "#a599ff"
+                        },
+                        sand: {
+                            1: "var(--sand-1)",
+                            2: "var(--sand-2)",
+                            3: "var(--sand-3)",
+                            4: "var(--sand-4)",
+                            5: "var(--sand-5)",
+                            6: "var(--sand-6)",
+                            7: "var(--sand-7)",
+                            8: "var(--sand-8)",
+                            9: "var(--sand-9)",
+                            10: "var(--sand-10)",
+                            11: "var(--sand-11)",
+                            12: "var(--sand-12)"
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('dumper')
+</head>
+
+<body class="min-h-screen font-sans text-white bg-black">
+    <div class="max-w-7xl mx-auto space-y-8">
+        <h1 class="block font-bold text-5xl mt-6 text-center text-gray-600">Login</h1>
+        <form action="{{ route('login') }}" method="post"
+            class="flex flex-col items-center justify-center space-y-4 p-4 md:p-5 border-b-[1px] border-gray-600">
+            {{ csrfField() }}
+            <input type="email" name="email" placeholder="Email"
+                class="w-full px-4 py-2.5 border-none bg-transparent rounded-lg text-sm" />
+            <input type="password" name="password" placeholder="Password"
+                class="w-full px-4 py-2.5 border-none bg-transparent rounded-lg text-sm" />
+            <button type="submit"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Login</button>
+        </form>
+        <div>
+            {{-- Back to register page --}}
+            <a href="/auth/register">
+                <span class="flex items-center gap-2 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" width="200" height="200"
+                        viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12 9.059V6.5a1.001 1.001 0 0 0-1.707-.708L4 12l6.293 6.207a.997.997 0 0 0 1.414 0A.999.999 0 0 0 12 17.5v-2.489c2.75.068 5.755.566 8 3.989v-1c0-4.633-3.5-8.443-8-8.941z" />
+                    </svg>
+                    Back to the register page
+                </span>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>
