@@ -43,14 +43,17 @@ export default class UserController {
         }
     }
 
-    async login({ request, response, auth }: HttpContext) {
+    async login({ request, response, auth, session }: HttpContext) {
         const { email, password } = await request.validateUsing(LoginUserValidator)
-        const user = await User.findBy('email', email)
-        if (!user || !(await user.verifyPassword(password))) {
-            return response.abort('Invalid credentials')
+        const user = await User.verifyCredentials(email, password)
+        // Verify the credentials and login the user if successful.
+        // const user = await User.findBy('email', email)
+        if (!user) {
+            session.flash({ errors: 'Invalid credentials' }) // Flash the errors to display on the form
+            return response.redirect().back()
         }
         await auth.use('web').login(user)
-        return response.redirect().toPath('/')
+        return response.redirect('/')
     }
     async logout({ auth, response }: HttpContext) {
         await auth.use('web').logout()

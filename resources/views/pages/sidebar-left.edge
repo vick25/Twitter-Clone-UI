@@ -27,7 +27,7 @@
         </div>
         @eval(await auth.check())
 
-        @if(auth.isAuthenticated)
+        @if(auth.user)
         <div>
             <div>{{ auth.user.firstname}}</div>
             <a href="{{ route('logout') }}" class="flex items-center space-x-1">
