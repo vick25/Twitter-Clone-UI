@@ -45,16 +45,50 @@ export default class UserController {
 
     async login({ request, response, auth, session }: HttpContext) {
         const { email, password } = await request.validateUsing(LoginUserValidator)
-        const user = await User.verifyCredentials(email, password)
-        // Verify the credentials and login the user if successful.
-        // const user = await User.findBy('email', email)
-        if (!user) {
-            session.flash({ errors: 'Invalid credentials' }) // Flash the errors to display on the form
+
+        try {
+            const user = await User.verifyCredentials(email, password)
+            // if (!user) {
+            //     // session.flash({ errors: 'Invalid credentials' }) // Flash the errors to display on the form
+            //     session.flash(
+            //         {
+            //             notification: {
+            //                 type: 'error',
+            //                 message: 'Invalid credentials'
+            //             }
+            //         }
+            //     )
+            //     return response.redirect().back()
+            // }
+            // Login the user if successful.
+            await auth.use('web').login(user)
+
+            session.flash(
+                {
+                    notification: {
+                        type: 'success',
+                        message: 'Log in successful'
+                    }
+                }
+            )
+
+            return response.redirect('/')
+        } catch (error) {
+            session.flash(
+                {
+                    notification: {
+                        type: 'error',
+                        message: 'Invalid credentials'
+                    }
+                }
+            )
             return response.redirect().back()
         }
-        await auth.use('web').login(user)
-        return response.redirect('/')
+        // Verify the credentials and login the user if successful.
+        // const user = await User.findBy('email', email)
+
     }
+
     async logout({ auth, response }: HttpContext) {
         await auth.use('web').logout()
         return response.redirect().toPath('/auth/login')

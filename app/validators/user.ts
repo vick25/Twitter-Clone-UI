@@ -1,4 +1,10 @@
-import vine from '@vinejs/vine'
+import vine, { SimpleMessagesProvider } from '@vinejs/vine'
+
+vine.messagesProvider = new SimpleMessagesProvider({
+    minLength: 'Le champ {{field}} doit avoir au minimum {{min}} caractères',
+    maxLength: 'Le champ {{field}} doit avoir au maximum {{max}} caractères',
+    email: 'Le champ {{field}} doit être une adresse email valide',
+})
 
 export const RegisterUserValidator = vine.compile(
     vine.object({
