@@ -18,6 +18,7 @@ router.get('/', [HomeController, 'index']).as('home').use(middleware.auth())
 router.post('/', [PostController, 'store']).as('tweet').use(middleware.auth())
 router.on('/tweet').redirect('/')
 router.get('/profile/:username?', [ProfileController, 'show']).as('profile')
+router.get('/profile/:username/edit', [ProfileController, 'edit']).as('editprofile').use(middleware.auth())
 router.group(
     () => {
         router.get('register', [UserController, 'showRegister'])

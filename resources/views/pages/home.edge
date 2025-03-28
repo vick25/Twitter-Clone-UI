@@ -12,7 +12,7 @@
   </div>
   @end
   <div class="flex items-start border-b-[1px] border-gray-600 space-x-4 p-4 mt-4">
-    <img class="w-10 h-10 rounded" alt="Avatar">
+    <img class="w-10 h-10 rounded" src="/avatar.webp" alt="Avatar">
     <form method="post" action="{{ route('tweet')}}" class="flex-1 ml-3 space-y-2">
       {{ csrfField() }}
       <textarea class="w-full px-4 pt-1 resize-none border-none bg-transparent rounded-lg text-sm" rows="3"
@@ -31,13 +31,13 @@
     {{-- Get the associated user of the tweets --}}
     <li class="border-b-[1px] border-gray-600 px-4 py-5 hover:bg-gray-900/75 cursor-pointer">
       <div class="w-full flex space-x-4">
-        <img class="w-10 h-10 rounded" alt="Avatar">
+        <img class="w-10 h-10 rounded" src="/avatar.webp" alt="Avatar">
         <div class="ml-3 flex-1 space-y-2">
-          <a class="flex items-center space-x-1" href="{{ route('profile', {username: `${currentUser?.username}`})}}">
-            <div class="font-bold text-sm">{{ `${users[tweet.user]?.firstname || currentUser?.firstname}
-              ${users[tweet.user]?.lastname || currentUser?.lastname}` }}
+          <a class="flex items-center space-x-1" href="{{ route('profile', {username: `${tweet.user?.username}`}) }}">
+            <div class="font-bold text-sm">{{ `${users[tweet.user]?.firstname || tweet.user?.firstname}
+              ${users[tweet.user]?.lastname || tweet.user?.lastname}` }}
             </div>
-            <span class="text-gray-500 text-sm">{{`@${users[tweet.user]?.username || currentUser?.username}`}}</span>
+            <span class="text-gray-500 text-sm">{{`${users[tweet.user]?.username || tweet.user.handle}`}}</span>
             <span class="text-gray-500 text-xs">·</span>
             <p class="text-xs text-gray-500">{{ tweet.createdAt }}</p>
           </a>

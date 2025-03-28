@@ -48,4 +48,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => UserProfile)
   declare profiles: HasMany<typeof UserProfile>
+
+  get handle(): string {
+    return `@${this.username}`
+  }
 }

@@ -27,15 +27,17 @@
     <div class="relative text-white">
         <img class="absolute -translate-y-[50%] max-w-full left-8 w-32 h-32 object-cover rounded-full"
             src="/resources/images/avatar.webp" alt="Profile picture">
+        @if(auth.user)
         <div class="flex justify-end p-4">
-            <button
+            <a href="{{ route('editprofile', {username: `${auth.user?.username}`})}}"
                 class="bg-transparent outline outline-offset-2 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full">Edit
-                profile</button>
+                profile</a>
         </div>
+        @end
         <div class="flex flex-col space-y-4 p-4">
             <div>
-                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
-                <p class="text-xs text-gray-500">{{`@${user?.username}`}}</p>
+                <p>{{ `${auth.user?.firstname} ${auth.user?.lastname}` }}</p>
+                <p class="text-xs text-gray-500">{{`@${auth.user?.username}`}}</p>
             </div>
 
             <p>{{user?.bio}}</p>
