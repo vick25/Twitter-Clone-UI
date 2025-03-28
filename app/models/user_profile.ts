@@ -8,28 +8,28 @@ export default class UserProfile extends BaseModel {
   declare userId: number
 
   @column()
-  declare profile_picture_url: string
+  declare profilePictureUrl: string | null
 
   @column()
-  declare biography: string
+  declare biography: string | null
 
   @column()
-  declare location: string
+  declare location: string | null
 
   @column()
-  declare website_url: string
+  declare websiteUrl: string | null
 
   @column.date()
-  declare birthdate: DateTime
+  declare birthdate: DateTime | null
 
   @column()
-  declare is_profile_public: boolean
+  declare isProfilePublic: boolean
 
   @column()
-  declare is_content_public: boolean
+  declare isContentPublic: boolean
 
   @column()
-  declare is_email_public: boolean
+  declare isEmailPublic: boolean
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

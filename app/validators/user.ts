@@ -10,6 +10,10 @@ export const RegisterUserValidator = vine.compile(
     vine.object({
         firstname: vine.string().trim().minLength(3).maxLength(50),
         lastname: vine.string().trim().minLength(3).maxLength(50),
+        username: vine.string().unique(async (db, value) => {
+            const result = await db.from('users').select('username').where('username', value).first();
+            return !result;
+        }),
         email: vine.string().trim().email(),
         password: vine.string().trim().minLength(6).confirmed(),
     })
