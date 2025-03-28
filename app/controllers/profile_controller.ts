@@ -1,25 +1,23 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { tweets, User, Tweet, users } from '../../utils/samples.js';
 import UserProfile from '#models/user_profile';
-// import User from '#models/user';
-
-function getTweetsForUser(userId: number): Tweet[] {
-    const userTweets = tweets.filter(tweet => tweet.user === userId);
-    return userTweets.reverse();
-}
+import Tweet from '#models/tweet';
+import User from '#models/user';
 
 export default class ProfileController {
 
     async show({ params, view, auth }: HttpContext) {
         const username = params?.username;
-        let user: User;
-        if (username)
-            user = users.find(u => u.username === username) as User
-        else
-            user = users[0]
+        if (!(await auth.check())) {
+            return 'User is not authenticated'; // Or redirect to login
+        }
 
-        const userTweets = getTweetsForUser(user?.id);
-        // console.log(userTweets)
+        const user = username ? await User.findBy('username', username) : auth.user!;
+
+        const userTweets = await Tweet.query()
+            .where('user_id', user?.id ?? 0)
+            .preload('user')
+            .orderBy('created_at', 'desc');
+
         return view.render('pages/profile', { user, userTweets });
     }
 

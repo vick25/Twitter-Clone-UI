@@ -19,7 +19,7 @@ export default class PostController {
             )
             return response.redirect('/');
         } catch (error) {
-            console.log(error);
+            session.flash({ error: error.message = 'Veuillez remplir ce champ.' });
             return response.redirect('/');
         }
     }

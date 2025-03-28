@@ -12,12 +12,9 @@
                 </svg>
             </a>
             <div class="text-xl font-bold p-4">
-                @if(auth.user)
-                <p>{{ `${auth.user?.firstname} ${auth.user?.lastname}` }}</p>
+                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
                 <p class="text-xs text-gray-500">{{ userTweets.length}} posts</p>
-                @else
 
-                @end
             </div>
         </div>
     </div>
@@ -27,21 +24,24 @@
     <div class="relative text-white">
         <img class="absolute -translate-y-[50%] max-w-full left-8 w-32 h-32 object-cover rounded-full"
             src="/resources/images/avatar.webp" alt="Profile picture">
-        @if(auth.user)
+        @if(auth.user.username == user.username)
         <div class="flex justify-end p-4">
             <a href="{{ route('editprofile', {username: `${auth.user?.username}`})}}"
                 class="bg-transparent outline outline-offset-2 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full">Edit
                 profile</a>
         </div>
+        @else
+        <div class="flex justify-end p-4 mt-10">
+        </div>
         @end
         <div class="flex flex-col space-y-4 p-4">
             <div>
-                <p>{{ `${auth.user?.firstname} ${auth.user?.lastname}` }}</p>
-                <p class="text-xs text-gray-500">{{`@${auth.user?.username}`}}</p>
+                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
+                <p class="text-xs text-gray-500">{{`@${user?.username}`}}</p>
             </div>
 
-            <p>{{user?.bio}}</p>
-            <p>{{user?.createdAt}}</p>
+            <p>{{user?.bio || ''}}</p>
+            <p>{{user?.createdAt.toLocaleString()}}</p>
             <div class="flex space-x-4">
                 <p>Following</p>
                 <p>Followers</p>
@@ -57,10 +57,10 @@
             @each(tweet in userTweets)
             <li class="border-b border-gray-800 pt-2 px-4 pb-6 hover:bg-gray-50/75">
                 <div class="flex w-full space-x-4">
-                    <img class="w-10 h-10 rounded" alt="Avatar">
+                    <img class="w-10 h-10 rounded" src="/avatar.webp" alt="Avatar">
                     <div class="flex-1 ml-3 space-y-1">
                         <p class="flex-1">{{ tweet.content }}</p>
-                        <p class="text-xs text-gray-500">{{ tweet.createdAt }}</p>
+                        <p class="text-xs text-gray-500">{{ tweet.createdAt.toRelative() }}</p>
                     </div>
                 </div>
             </li>

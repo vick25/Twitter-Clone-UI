@@ -71,9 +71,15 @@
 
 <body class="min-h-screen font-sans text-white bg-black">
     @flashMessage('notification')
-    <div class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500"
+    <div id="flash-message"
+        class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500"
         role="alert" tabindex="-1" aria-labelledby="hs-soft-color-success-label">
         <span id="hs-soft-color-success-label" class="font-bold">Success</span> {{ $message.message}}
+        <script>
+            setTimeout(() => {
+                document.getElementById('flash-message')?.remove();
+            }, 3000);
+        </script>
     </div>
     @end
     <div class="max-w-7xl mx-auto">
