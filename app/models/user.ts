@@ -3,8 +3,9 @@ import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
-import Tweet from '#models/tweet'
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
+import Tweet from '#models/tweet'
+import UserProfile from '#models/user_profile'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -41,4 +42,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
     pivotTimestamps: true
   })
   declare userTweetComments: ManyToMany<typeof Tweet>
+
+  @hasMany(() => UserProfile)
+  declare profiles: HasMany<typeof UserProfile>
 }
