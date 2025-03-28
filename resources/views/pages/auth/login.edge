@@ -109,16 +109,18 @@
             <button type="submit"
                 class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Login</button>
         </form>
-        <div>
+        <div class="flex items-center justify-center space-x-2">
             {{-- Back to register page --}}
+            Don't have an account?
             <a href="/auth/register">
-                <span class="flex items-center gap-2 text-center">
+                <span
+                    class="flex items-center gap-2 text-center underline underline-offset-8 text-lg font-bold text-blue-600 hover:text-blue-700">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" width="200" height="200"
                         viewBox="0 0 24 24">
                         <path fill="currentColor"
                             d="M12 9.059V6.5a1.001 1.001 0 0 0-1.707-.708L4 12l6.293 6.207a.997.997 0 0 0 1.414 0A.999.999 0 0 0 12 17.5v-2.489c2.75.068 5.755.566 8 3.989v-1c0-4.633-3.5-8.443-8-8.941z" />
                     </svg>
-                    Back to the register page
+                    Register
                 </span>
             </a>
         </div>

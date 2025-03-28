@@ -12,8 +12,12 @@
                 </svg>
             </a>
             <div class="text-xl font-bold p-4">
-                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
+                @if(auth.user)
+                <p>{{ `${auth.user?.firstname} ${auth.user?.lastname}` }}</p>
                 <p class="text-xs text-gray-500">{{ userTweets.length}} posts</p>
+                @else
+
+                @end
             </div>
         </div>
     </div>

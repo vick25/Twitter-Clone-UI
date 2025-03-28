@@ -13,16 +13,4 @@ export default class HomeController {
         const currentUser = users[0];
         return view.render('pages/home', { tweets, currentUser, users });
     }
-
-    async store({ request, response }: HttpContext) {
-        try {
-            const tweet: string = request.body().tweet;
-            if (tweet.trim() !== '')
-                tweets.push({ id: tweets.length + 1, content: tweet, createdAt: new Date(), user: users[0].id });
-
-            response.redirect('/');
-        } catch (error) {
-            response.redirect('/');
-        }
-    }
 }

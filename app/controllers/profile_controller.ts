@@ -8,7 +8,7 @@ function getTweetsForUser(userId: number): Tweet[] {
 
 export default class ProfileController {
 
-    async show({ params, view }: HttpContext) {
+    async show({ params, view, auth }: HttpContext) {
         const username = params?.username;
         let user: User;
         if (username)

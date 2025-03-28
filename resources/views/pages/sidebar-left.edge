@@ -29,17 +29,10 @@
 
         @if(auth.user)
         <div>
-            <div>{{ auth.user.firstname}}</div>
+            <div>{{`@${ auth.user.username}`}}</div>
             <a href="{{ route('logout') }}" class="flex items-center space-x-1">
                 <span><img src="/resources/images/logout.png" alt="Logout"></span>
                 Logout
-            </a>
-        </div>
-        @else
-        <div>
-            <a href="/auth/login" class="flex items-center space-x-1 text-gray-600 hover:text-gray-400 font-medium">
-                <span><img src="/resources/images/login.png" alt="Login"></span>
-                Login
             </a>
         </div>
         @end
