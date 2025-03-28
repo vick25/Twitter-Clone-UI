@@ -25,6 +25,6 @@ router.group(
         router.post('register', [UserController, 'register']).as('register')
         router.get('login', [UserController, 'showLogin'])
         router.post('login', [UserController, 'login']).as('login')
-        router.get('logout', [UserController, 'logout']).as('logout').use(middleware.auth())
+        router.get('logout', [UserController, 'destroy']).as('logout').use(middleware.auth())
     }
 ).prefix('auth')

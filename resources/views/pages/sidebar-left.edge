@@ -59,9 +59,10 @@
                 <img src="/avatar.webp" alt="User Avatar" class="w-10 h-10 rounded-full grayscale">
                 <div class="ml-2">
                     <div class="flex items-center space-x-1">
-                        <span class="font-semibold text-gray-300">Victor Kadiata</span>
+                        <span class="font-semibold text-gray-300">{{`${auth.user?.firstname}
+                            ${auth.user?.lastname}`}}</span>
                     </div>
-                    <p class="text-gray-500">@vickad25</p>
+                    <p class="text-gray-500">{{auth.user?.handle}}</p>
                 </div>
                 <div class="pl-4 text-gray-400">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">

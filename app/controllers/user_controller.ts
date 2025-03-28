@@ -89,8 +89,8 @@ export default class UserController {
 
     }
 
-    async logout({ auth, response }: HttpContext) {
+    async destroy({ auth, response }: HttpContext) {
         await auth.use('web').logout()
-        return response.redirect().toPath('/auth/login')
+        return response.redirect().toPath('/')
     }
 }
