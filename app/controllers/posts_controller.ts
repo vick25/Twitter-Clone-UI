@@ -1,7 +1,13 @@
+import Tweet from '#models/tweet';
 import { TweetValidator } from '#validators/tweet';
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class PostController {
+
+    async index({ response, auth }: HttpContext) {
+        const tweets = await Tweet.all()
+        return response.json(tweets)
+    }
 
     async store({ request, response, session, auth }: HttpContext) {
         try {

@@ -4,6 +4,16 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class UserController {
 
+    async index({ response }: HttpContext) {
+        const users = await User.all()
+        return response.json(users)
+    }
+
+    async show({ request, response }: HttpContext) {
+        const user = await User.findOrFail(request?.param('id'))
+        return response.json(user)
+    }
+
     async showRegister({ view }: HttpContext) {
         return view.render('pages/auth/register')
     }
@@ -45,7 +55,7 @@ export default class UserController {
 
     async login({ request, response, auth, session }: HttpContext) {
         const { email, password } = await request.validateUsing(LoginUserValidator)
-
+        console.log("jjjsldfjd")
         try {
             const user = await User.verifyCredentials(email, password)
             // if (!user) {

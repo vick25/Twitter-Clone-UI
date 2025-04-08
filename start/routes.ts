@@ -13,6 +13,24 @@ const ProfileController = () => import('#controllers/profile_controller')
 const HomeController = () => import('#controllers/home_controller')
 const PostController = () => import('#controllers/posts_controller')
 const UserController = () => import('#controllers/user_controller')
+const AuthController = () => import('#controllers/auth_controller')
+
+// API
+router.group(
+    () => {
+        // Tweets routes
+        router.get('tweets', [PostController, 'index']).as('api.tweets')
+        router.post('tweets', [PostController, 'store']).as('api.tweet')
+        // User routes
+        router.get('users', [UserController, 'index']).as('api.users')
+        router.get('users/:id', [UserController, 'show']).as('api.user')
+
+        router.post('auth/register', [AuthController, 'register']).as('auth.register')
+        router.post('auth/login', [AuthController, 'login']).as('auth.login')
+        router.post('auth/delete', [AuthController, 'logout']).as('auth.delete').use(middleware.auth())
+        router.get('auth/me', [AuthController, 'me']).as('auth.me')
+    }
+).prefix('api/v1/')
 
 router.get('/', [HomeController, 'index']).as('home').use(middleware.auth())
 router.post('/', [PostController, 'store']).as('tweet').use(middleware.auth())
@@ -28,3 +46,12 @@ router.group(
         router.get('logout', [UserController, 'destroy']).as('logout').use(middleware.auth())
     }
 ).prefix('auth')
+
+router.get('/test-auth', async ({ auth }) => {
+    await auth.check()
+    if (!auth.isAuthenticated) {
+        return 'Pas connecté'
+    }
+    const user = auth.user!
+    return `Connecté en tant que ${user.username ?? user.email}`
+})
