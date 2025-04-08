@@ -78,7 +78,7 @@
             <div class="alert alert-danger">
                 <ul>
                     @each(error in flashMessages.get('errors'))
-                    <li>{{ error }}</li>
+                    <li>{{ error.message }}</li>
                     @endeach
                 </ul>
             </div>
