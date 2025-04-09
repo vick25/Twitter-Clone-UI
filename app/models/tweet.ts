@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasOne } from '@adonisjs/lucid/orm'
-import type { BelongsTo, HasOne } from '@adonisjs/lucid/types/relations'
+import { BaseModel, belongsTo, column, hasOne, manyToMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
 import User from '#models/user'
 
 export default class Tweet extends BaseModel {
@@ -27,4 +27,9 @@ export default class Tweet extends BaseModel {
 
   @hasOne(() => Tweet)
   declare retweet_of: HasOne<typeof Tweet>
+
+  @manyToMany(() => User, {
+    pivotTimestamps: true
+  })
+  declare tweetLikes: ManyToMany<typeof User>
 }  
