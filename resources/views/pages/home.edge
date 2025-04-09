@@ -61,14 +61,30 @@
               <span>{{44}}</span>
             </div>
 
-            <div class="flex items-center space-x-1">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd"
-                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                  clip-rule="evenodd" />
-              </svg>
-              <span>{{`1.8K`}}</span>
-            </div>
+            @if(await auth.user.hasTweetLikes(tweet.id))
+            <form action="{{ route('likedestroy', [tweet.id], {qs: {'_methode':'DELETE'}}) }}" method="post">
+              {{csrfField()}}
+              <button class="flex items-center space-x-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 48 48">
+                  <path fill="#2F88FF" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                    d="M15 8C8.92487 8 4 12.9249 4 19C4 30 17 40 24 42.3262C31 40 44 30 44 19C44 12.9249 39.0751 8 33 8C29.2797 8 25.9907 9.8469 24 12.6738C22.0093 9.8469 18.7203 8 15 8Z" />
+                </svg>
+                <span>{{ tweet.$extras.tweetLikes_count }}</span>
+              </button>
+            </form>
+            @else
+            <form action="{{ route('like', [tweet.id]) }}" method="post">
+              {{csrfField()}}
+              <button class="flex items-center space-x-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 48 48">
+                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="4"
+                    d="M15 8C8.925 8 4 12.925 4 19c0 11 13 21 20 23.326C31 40 44 30 44 19c0-6.075-4.925-11-11-11c-3.72 0-7.01 1.847-9 4.674A10.987 10.987 0 0 0 15 8Z" />
+                </svg>
+                <span>{{ tweet.$extras.tweetLikes_count }}</span>
+              </button>
+            </form>
+            @end
           </div>
         </div>
       </div>
