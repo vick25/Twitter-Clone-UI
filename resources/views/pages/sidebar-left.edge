@@ -35,12 +35,13 @@
         </div>
 
         {{-- @if(auth.user)
-        <div class="flex items-center space-x-2">
+        <form class="flex items-center justify-between space-x-2" action="/auth/logout?_method=DELETE" method="post">
+            {{csrfField()}}
             <div>{{`@${ auth.user.handle}`}}</div>
-            <a href="{{ route('logout') }}" class="flex items-center space-x-1">
+            <button href="{{ route('logout') }}" class="flex items-center space-x-1">
                 Logout
-            </a>
-        </div>
+            </button>
+        </form>
         @end --}}
     </div>
 

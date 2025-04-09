@@ -55,7 +55,6 @@ export default class UserController {
 
     async login({ request, response, auth, session }: HttpContext) {
         const { email, password } = await request.validateUsing(LoginUserValidator)
-        console.log("jjjsldfjd")
         try {
             const user = await User.verifyCredentials(email, password)
             // if (!user) {

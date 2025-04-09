@@ -6,6 +6,7 @@ import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Tweet from '#models/tweet'
 import UserProfile from '#models/user_profile'
+import UserFollow from '#models/user_follow'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
@@ -40,6 +41,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @hasMany(() => Tweet)
   declare tweets: HasMany<typeof Tweet>
+
+  @hasMany(() => UserFollow)
+  declare userFollows: HasMany<typeof UserFollow>
 
   @manyToMany(() => Tweet, {
     pivotColumns: ['content'],
