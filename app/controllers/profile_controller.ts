@@ -15,7 +15,8 @@ export default class ProfileController {
             return 'User is not authenticated'; // Or redirect to login
         }
 
-        const profileUser = username ? await User.findBy('username', username) : auth.user!;
+        const profileUser = username ? await User.query().where('username', username).firstOrFail()
+            : auth.user!;
 
         const userTweets = await Tweet.query()
             .where('user_id', profileUser?.id ?? 0)
