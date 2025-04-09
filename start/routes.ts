@@ -14,6 +14,7 @@ const HomeController = () => import('#controllers/home_controller')
 const PostController = () => import('#controllers/posts_controller')
 const UserController = () => import('#controllers/user_controller')
 const AuthController = () => import('#controllers/auth_controller')
+const UserFollowsController = () => import('#controllers/user_follows_controller')
 
 // API
 router.group(
@@ -37,6 +38,9 @@ router.post('/', [PostController, 'store']).as('tweet').use(middleware.auth())
 router.on('/tweet').redirect('/')
 router.get('/profile/:username?', [ProfileController, 'show']).as('profile')
 router.get('/profile/:username/edit', [ProfileController, 'edit']).as('editprofile').use(middleware.auth())
+
+router.post('/follows/:id/follow', [UserFollowsController, 'store'])
+
 router.group(
     () => {
         router.get('register', [UserController, 'showRegister'])

@@ -12,18 +12,17 @@
                 </svg>
             </a>
             <div class="text-xl font-bold p-4">
-                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
+                <p>{{ `${profileUser?.firstname} ${profileUser?.lastname}` }}</p>
                 <p class="text-xs text-gray-500">{{ userTweets.length}} posts</p>
             </div>
         </div>
     </div>
     <div class="bg-gray-300 h-48 border-b">
-
     </div>
     <div class="relative text-white">
         <img class="absolute -translate-y-[50%] max-w-full left-8 w-32 h-32 object-cover rounded-full"
             src="/resources/images/avatar.webp" alt="Profile picture">
-        @if(auth.user.username == user.username)
+        @if(auth.user.username == profileUser.username)
         <div class="flex justify-end p-4">
             <button id="openDialogButton"
                 class="bg-transparent outline outline-offset-2 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full">Edit
@@ -31,16 +30,26 @@
         </div>
         @else
         <div class="flex justify-end p-4 mt-10">
+            <form action="{{ `/follows/${profileUser?.id}/follow` }}" method="post">
+                {{csrfField()}}
+                @if(!follow || follow === 'false')
+                <button type="submit"
+                    class="bg-transparent outline outline-offset-2 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full">Follow</button>
+                @else
+                <button type="submit"
+                    class="bg-blue-500 outline outline-offset-2 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Unfollow</button>
+                @end
+            </form>
         </div>
         @end
         <div class="flex flex-col space-y-4 p-4">
             <div>
-                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
-                <p class="text-xs text-gray-500">{{`@${user?.username}`}}</p>
+                <p>{{ `${profileUser?.firstname} ${profileUser?.lastname}` }}</p>
+                <p class="text-xs text-gray-500">{{`@${profileUser?.username}`}}</p>
             </div>
 
-            <p>{{user?.bio || ''}}</p>
-            <p>{{user?.createdAt.toLocaleString()}}</p>
+            <p>{{profileUser?.bio || ''}}</p>
+            <p>{{profileUser?.createdAt.toLocaleString()}}</p>
             <div class="flex space-x-4">
                 <p>Following</p>
                 <p>Followers</p>
@@ -73,11 +82,11 @@
         <button id="close" class="mx-auto mt-4 table rounded bg-gray-200 px-4 py-2 text-sm font-bold">Close</button>
     </dialog> --}}
 
-    <dialog id="dialog" class="fixed top-0 left-0 z-50 bg-black/50">
+    <dialog id="dialog" class="fixed top-[5%] left-[50%] -translate-x-[50%] z-50 bg-black/50">
         <form method="post" class="bg-white rounded-lg shadow-xl p-6 relative">
             {{csrfField()}}
             <button type="button" aria-label="close" id="close-dialog" formmethod="dialog" formnovalidate
-                class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 focus:outline-none">Save</button>
+                class="absolute top-2 right-2 font-bold text-gray-700 hover:text-gray-800 focus:outline-none">Save</button>
             <h2 id="dialogid" class="text-xl font-semibold mb-2">Edit profile</h2>
             {{-- <p class="text-gray-700 mb-4">All fields are required</p> --}}
             <p class="mb-2">
@@ -119,8 +128,8 @@
             <p class="mb-2 flex">
                 <input type="checkbox"
                     class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
-                    id="hs-default-checkbox">
-                <label for="hs-default-checkbox" class="text-sm text-gray-500 ms-3 dark:text-neutral-400">Profile
+                    id="profile-checkbox">
+                <label for="profile-checkbox" class="text-sm text-gray-500 ms-3 dark:text-neutral-700">Profile
                     public</label>
 
                 {{-- <label class="block text-gray-700 text-sm font-bold mb-2">:
@@ -128,28 +137,27 @@
                         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                 </label> --}}
             </p>
-            <p class="mb-2">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Content public:
-                    <input type="checked" name="website" required
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                </label>
+            <p class="mb-2 flex">
+                <input type="checkbox" name="contentPublic" id="content-checkbox" required
+                    class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
+                <label for="content-checkbox" class="text-sm text-gray-500 ms-3 dark:text-neutral-700">Content
+                    public</label>
             </p>
-            <p class="mb-2">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Email public:
-                    <input type="checked" name="website" required
-                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                </label>
+            <p class="mb-2 flex">
+                <input type="checkbox" name="emailPublic" id="email-checkbox" required
+                    class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
+                <label for="email-checkbox" class="text-sm text-gray-500 ms-3 dark:text-neutral-700">Email
+                    public</label>
             </p>
-            <p class="mb-4">
+            <p class="my-4">
                 <button type="submit" formmethod="post"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
+                    class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
             </p>
             <hr class="my-4" />
-            <p class="mb-2">Additional buttons</p>
-            <div class="flex space-x-2">
+
+            <div class="flex justify-end space-x-2">
                 <button id="close" type="button"
-                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">JS
-                    close</button>
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Close</button>
                 <button id="reset" type="reset"
                     class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Reset</button>
             </div>
