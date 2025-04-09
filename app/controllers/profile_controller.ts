@@ -37,7 +37,22 @@ export default class ProfileController {
             follow = 'true';
         }
 
-        return view.render('pages/profile', { profileUser, userTweets, follow });
+        // Get the followers and following count
+        const followersCount = await UserFollow.query()
+            .where('following_id', profileUser!.id)
+            .count('* as count')
+            .first();
+        const followingCount = await UserFollow.query()
+            .where('follower_id', profileUser!.id)
+            .count('* as count')
+            .first();
+
+        const userFollows = {
+            followersCount: followersCount?.$extras.count,
+            followingCount: followingCount?.$extras.count
+        }
+
+        return view.render('pages/profile', { profileUser, userTweets, follow, userFollows });
     }
 
     async edit({ params, response }: HttpContext) {
