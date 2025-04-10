@@ -16,6 +16,7 @@ const UserController = () => import('#controllers/user_controller')
 const AuthController = () => import('#controllers/auth_controller')
 const UserFollowsController = () => import('#controllers/user_follows_controller')
 const TweetLikesController = () => import('#controllers/tweet_likes_controller')
+const TweetRetweetsController = () => import('#controllers/tweet_retweets_controller')
 
 // API
 router.group(
@@ -43,6 +44,8 @@ router.get('/profile/:username/edit', [ProfileController, 'edit']).as('editprofi
 router.post('/follows/:id/follow', [UserFollowsController, 'store']).use(middleware.auth()).as('follow')
 router.post('/tweets/:id/like', [TweetLikesController, 'store']).use(middleware.auth()).as('like')
 router.delete('/tweets/:id/like', [TweetLikesController, 'destroy']).use(middleware.auth()).as('likedestroy')
+router.post('/tweets/:id/retweet', [TweetRetweetsController, 'store']).use(middleware.auth()).as('retweet')
+router.delete('/tweets/:id/retweet', [TweetRetweetsController, 'destroy']).use(middleware.auth()).as('retweetdestroy')
 
 router.group(
     () => {

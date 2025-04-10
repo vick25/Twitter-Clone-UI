@@ -57,6 +57,12 @@ export default class User extends compose(BaseModel, AuthFinder) {
   })
   declare tweetLikes: ManyToMany<typeof Tweet>
 
+  @manyToMany(() => Tweet, {
+    pivotTable: 'tweet_retweets',
+    pivotTimestamps: true
+  })
+  declare tweetRetweets: ManyToMany<typeof Tweet>
+
   @hasMany(() => UserProfile)
   declare profiles: HasMany<typeof UserProfile>
 
@@ -67,6 +73,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
   async hasTweetLikes(tweetId: number): Promise<boolean> {
     const self = this as User
     return !!(await self.related('tweetLikes').query().where('tweet_id', tweetId).first())
+  }
+
+  async hasTweetRetweets(tweetId: number): Promise<boolean> {
+    const self = this as User
+    return !!(await self.related('tweetRetweets').query().where('tweet_id', tweetId).first())
   }
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {

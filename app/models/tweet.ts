@@ -33,4 +33,10 @@ export default class Tweet extends BaseModel {
     pivotTimestamps: true
   })
   declare tweetLikes: ManyToMany<typeof User>
+
+  @manyToMany(() => User, {
+    pivotTable: 'tweet_retweets',
+    pivotTimestamps: true
+  })
+  declare tweetRetweets: ManyToMany<typeof User>
 }  
