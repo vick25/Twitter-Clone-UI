@@ -12,7 +12,8 @@ export default class HomeController {
     async index({ view }: HttpContext) {
 
         const tweets = await Tweet.query().orderBy('created_at', 'desc').preload('user')
-            .withCount('tweetLikes');
+            .withCount('tweetLikes')
+            .withCount('tweetRetweets');
         // const userTweets = tweets.filter(tweet => tweet.user === users[0].id).reverse();
         const currentUser = users[0];
         return view.render('pages/home', { tweets, currentUser, users });
