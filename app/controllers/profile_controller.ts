@@ -24,7 +24,7 @@ export default class ProfileController {
             .orderBy('created_at', 'desc');
 
         if (follow === 'false') {
-            const deleteFollow = await UserFollow.query().delete()
+            await UserFollow.query().delete()
                 .where('follower_id', auth.user!.id)
                 .where('following_id', profileUser!.id);
         }
