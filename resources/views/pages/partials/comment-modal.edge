@@ -1,0 +1,73 @@
+<div id="formModalComment"
+    class="fixed inset-0 z-20 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+
+    <div
+        class="relative -top-[25%] bg-black text-gray-100 rounded-2xl shadow-xl w-full max-w-xl mx-auto overflow-hidden">
+        <div class="p-3 flex justify-between items-center">
+            <button id="closeModalCommentBtn" aria-label="Close"
+                class="text-gray-400 hover:text-white p-1 rounded-full">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Main Content Area -->
+        <form action="" method="post">
+            <div class="p-4">
+                {{csrfField()}}
+                <div class="flex space-x-3 relative">
+                    <div>
+                        <img id="img" class="w-10 h-10 rounded-full object-cover" src="/avatar.webp"
+                            alt="User Tweet Avatar">
+                        <div class="absolute left-[19px] top-11 bottom-[68px] w-0.5 bg-gray-700"></div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-1 text-sm mb-1">
+                            <span id="user" class="font-bold text-white"></span>
+                            <span class="username text-gray-500"></span>
+                            <span class="text-gray-500">·</span>
+                            <span id="date" class="text-gray-500"></span>
+                        </div>
+                        <p id="content" class="text-white mb-1"></p>
+                        {{-- <a href="#" class="text-blue-400 hover:underline break-all">pic.x.com/SLxJCwA3PO</a> --}}
+                        <p class="mt-3 text-sm text-gray-500">
+                            Replying to <a href="#" class="username text-blue-400 hover:underline"></a>
+                        </p>
+                    </div>
+                </div>
+                <div class="flex space-x-3 mt-3">
+                    <img class="w-10 h-10 rounded-full object-cover" src="/avatar.webp" alt="My avatar">
+                    <div class="flex-1">
+                        <textarea rows="3" name="content"
+                            class="w-full bg-transparent border-none focus:ring-0 text-xl text-white placeholder-gray-500 resize-none mt-1"
+                            placeholder="Post your reply"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- Action Bar -->
+            <div class="flex items-center justify-between border-t border-gray-800 px-4 py-2">
+                <div class="flex items-center space-x-1">
+                    <button title="Media" class="text-blue-400 p-2 rounded-full hover:bg-blue-400 hover:bg-opacity-10">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <g>
+                                <path
+                                    d="M19.75 2H4.25C3.01 2 2 3.01 2 4.25v15.5C2 20.99 3.01 22 4.25 22h15.5c1.24 0 2.25-1.01 2.25-2.25V4.25C22 3.01 20.99 2 19.75 2zM4.25 3.5h15.5c.413 0 .75.337.75.75v9.676l-3.858-3.858c-.14-.14-.33-.22-.53-.22s-.39.08-.53.22l-4.3 4.3-1.3-1.3c-.14-.14-.33-.22-.53-.22s-.39.08-.53.22l-3.3 3.3V4.25c0-.413.337-.75.75-.75zm-.744 16.104l4.3-4.3 1.3 1.3c.14.14.33.22.53.22s.39-.08.53-.22l4.3-4.3 3.858 3.858v3.516c0 .413-.337.75-.75.75H4.25c-.413 0-.75-.337-.75-.75v-.004c.01-.15.07-.286.156-.402zM8.5 9.5c.828 0 1.5-.672 1.5-1.5S9.328 6.5 8.5 6.5 7 7.172 7 8s.672 1.5 1.5 1.5z">
+                                </path>
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Reply Button -->
+                <button id="replyBtn" type="submit"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1.5 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
+                    Reply
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>

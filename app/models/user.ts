@@ -63,6 +63,13 @@ export default class User extends compose(BaseModel, AuthFinder) {
   })
   declare tweetRetweets: ManyToMany<typeof Tweet>
 
+  @manyToMany(() => Tweet, {
+    pivotTable: 'tweet_comments',
+    pivotColumns: ['content'],
+    pivotTimestamps: true
+  })
+  declare tweetCommentss: ManyToMany<typeof Tweet>
+
   @hasMany(() => UserProfile)
   declare profiles: HasMany<typeof UserProfile>
 
