@@ -14,12 +14,17 @@ const openModalCommentBtns = document.querySelectorAll(".openModalCommentBtn");
 const closeModalCommentBtn = document.getElementById("closeModalCommentBtn");
 
 document.addEventListener("DOMContentLoaded", (event) => {
+    logoutModal.classList.add('hidden');
+
     window.addEventListener("click", (e) => {
         if (e.target === modalPost) {
             modalPost.classList.add("hidden");
         }
         if (e.target === modalComment) {
             modalComment.classList.add("hidden");
+        }
+        if (e.target !== toggleModalBtn && !logoutModal.contains(e.target)) {
+            logoutModal.classList.add('hidden');
         }
     });
 
@@ -29,6 +34,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Toggle the logout modal when the button is clicked
     toggleModalBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         logoutModal.classList.toggle('hidden');
     });
 

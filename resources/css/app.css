@@ -13,3 +13,20 @@ body {
 img {
   max-width: 100%;
 }
+
+button {
+  position: relative;
+}
+
+button:hover::after {
+  content: attr(data-title);
+  padding: 5px;
+  width: fit-content;
+  font-weight: 300;
+  font-size: x-small;
+  position: absolute;
+  top: 12px;
+  left: 8px;
+  background: transparent;
+  color: white;
+}
