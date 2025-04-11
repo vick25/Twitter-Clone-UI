@@ -12,8 +12,7 @@ import { middleware } from './kernel.js'
 const ProfileController = () => import('#controllers/profile_controller')
 const HomeController = () => import('#controllers/home_controller')
 const PostController = () => import('#controllers/posts_controller')
-// const UserController = () => import('#controllers/user_controller')
-import UserController from '#controllers/user_controller'
+const UserController = () => import('#controllers/user_controller')
 
 const AuthController = () => import('#controllers/auth_controller')
 const UserFollowsController = () => import('#controllers/user_follows_controller')
