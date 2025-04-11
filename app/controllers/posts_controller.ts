@@ -4,9 +4,14 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class PostController {
 
-    async index({ response, auth }: HttpContext) {
+    async index({ request, params, response, auth, view }: HttpContext) {
+        const tweetID = params?.id
         const tweets = await Tweet.all()
-        return response.json(tweets)
+
+        if (!request.completeUrl().includes('api'))
+            return view.render('pages/post', { tweets });
+        else
+            return response.json(tweets);
     }
 
     async store({ request, response, session, auth }: HttpContext) {

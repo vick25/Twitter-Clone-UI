@@ -1,3 +1,5 @@
+const postListItems = document.querySelectorAll('[id ^= "item_"]')
+
 const toggleModalBtn = document.querySelector('#toggleModal');
 const logoutModal = document.querySelector('#logoutModal');
 const dialog = document.getElementById('dialog');
@@ -12,6 +14,34 @@ const closeModalPostBtn = document.getElementById("closeModalPostBtn");
 const modalComment = document.getElementById("formModalComment");
 const openModalCommentBtns = document.querySelectorAll(".openModalCommentBtn");
 const closeModalCommentBtn = document.getElementById("closeModalCommentBtn");
+
+const handlePostItemCliked = async (tweetID) => {
+    const csrfTokenMeta = document.querySelector < HTMLMetaElement > ('meta[name="csrf-token"]');
+    const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : null;
+    if (!tweetID || !csrfToken) {
+        return;
+    }
+    console.log(`Clicked item number: ${tweetID}`);
+    try {
+        const response = await fetch(`/tweets/${tweetID}/status`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({ tweetID })
+        });
+        if (response.ok) {
+            const svg = this.querySelector < SVGSVGElement > ('svg');
+            if (svg) {
+                svg.classList.toggle('fill-pink-500');
+                svg.classList.toggle('stroke-pink-500');
+            }
+        }
+    } catch (err) {
+        return
+    }
+}
 
 document.addEventListener("DOMContentLoaded", (event) => {
     logoutModal.classList.add('hidden');
@@ -105,28 +135,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
         modalComment.classList.add("hidden");
     });
 
-    // const csrfTokenMeta = document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]');
-    // const csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : null;
-    // if (!tweetId || !csrfToken) {
-    //     return;
-    // }
-    // try {
-    //     const response = await fetch(`/tweets/${tweetId}/comment`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-CSRF-Token': csrfToken
-    //         },
-    //         body: JSON.stringify({ tweetId })
-    //     });
-    //     if (response.ok) {
-    //         const svg = this.querySelector<SVGSVGElement>('svg');
-    //         if (svg) {
-    //             svg.classList.toggle('fill-pink-500');
-    //             svg.classList.toggle('stroke-pink-500');
-    //         }
-    //     }
-    // } catch (err) {
-    //    return
-    // }
+    postListItems.forEach((el) => {
+        el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // console.log(e.target)
+            const number = el.id.split('_')[1];
+            handlePostItemCliked(number);
+        });
+    })
 });
