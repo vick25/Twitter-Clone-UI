@@ -13,13 +13,13 @@
         <ul role="menu" class="flex flex-col space-y-2 text-md font-bold">
             <li class="p-2 hover:bg-gray-800 rounded-lg cursor-pointer">
                 <a href="/" class="flex items-center gap-4">
-                    <span><img src="/resources/images/home.png" class="grayscale" alt="Home"></span>
+                    <span><img src="/home.png" class="grayscale" alt="Home"></span>
                     Home
                 </a>
             </li>
             <li class="p-2 hover:bg-gray-800 rounded-lg cursor-pointer">
                 <a href="{{route('profile')}}" class="flex items-center gap-4">
-                    <span><img src="/resources/images/profile.png" alt="profile"></span>
+                    <span><img src="/profile.png" alt="profile"></span>
                     Profile
                 </a>
             </li>
@@ -49,7 +49,7 @@
 
     <div class="relative w-full">
         <div id="logoutModal"
-            class="absolute -top-32 mt-2 w-full bg-gray-900 text-white rounded-lg shadow-lg border border-gray-700 p-2">
+            class="absolute -top-32 mt-2 w-full bg-gray-900 text-white rounded-lg shadow-lg border border-gray-700 p-2 hidden">
             <a href="auth/register" class="block w-full text-left px-4 py-2 hover:bg-gray-700 rounded">Add an existing
                 account</a>
             <a href="{{ route('logout') }}" class="block w-full text-left px-4 py-2 hover:bg-gray-700 rounded">Log out
