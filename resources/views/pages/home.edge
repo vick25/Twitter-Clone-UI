@@ -29,7 +29,7 @@
   <ul class="text-lg mt-[0px]">
     @each(tweet in tweets)
     {{-- Get the associated user of the tweets --}}
-    <li class="border-b-[1px] border-gray-600 px-4 py-5 hover:bg-gray-900/75 cursor-pointer">
+    <li id="item_{{tweet.id}}" class="border-b-[1px] border-gray-600 px-4 py-5 hover:bg-gray-900/75 cursor-pointer">
       <div class="w-full flex items-start space-x-4">
         <a href="{{ route('profile', {username: `${tweet.user?.username}`}) }}">
           <img class="w-10 h-10 rounded-full" src="/avatar.webp" alt="Avatar">
@@ -43,15 +43,16 @@
               <span class="text-gray-500 text-sm">{{`${users[tweet.user]?.username || tweet.user.handle}`}}</span>
               <span class="text-gray-500 text-xs">·</span>
             </a>
-            <p id="date_{{`${tweet.id}`}}" class="text-xs text-gray-500">{{ tweet.createdAt.toRelative() }}</p>
+            <p id="date_{{tweet.id}}" class="text-xs text-gray-500">{{ tweet.createdAt.toRelative() }}</p>
           </div>
-          <p id="{{`${tweet.id}`}}" class="flex-1 text-md">{{ tweet.content }}</p>
+          {{-- Content --}}
+          <p id="{{tweet.id}}" class="flex-1 text-md">{{ tweet.content }}</p>
 
           {{-- Buttons --}}
           <div class="flex items-center justify-between text-gray-400 text-sm pt-1">
             {{-- Comment button --}}
             @if(await tweet.hasTweetComments(tweet.id))
-            <button id="{{`${tweet.id}`}}" data-title="Reply"
+            <button id="{{tweet.id}}" data-title="Reply"
               class="openModalCommentBtn flex items-center space-x-1 group font-semibold text-[#2F88FF]">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#2F88FF]" viewBox="0 0 24 24">
                 <path fill="currentColor"
@@ -60,7 +61,7 @@
               <span>{{tweet.$extras.tweetComments_count}}</span>
             </button>
             @else
-            <button id="{{`${tweet.id}`}}" data-title="Reply"
+            <button id="{{tweet.id}}" data-title="Reply"
               class="openModalCommentBtn flex items-center space-x-1 group text-gray-500 hover:text-[#2F88FF] transition-colors duration-150 ease-in-out">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24">
                 <path fill="currentColor"
@@ -69,7 +70,6 @@
               <span>{{tweet.$extras.tweetComments_count}}</span>
             </button>
             @end
-
             {{-- Retweet button --}}
             @if(await auth.user.hasTweetRetweets(tweet.id))
             <form action="{{ route('retweetdestroy', [tweet.id], {qs: {'_method':'DELETE'}}) }}" method="post">
@@ -96,7 +96,6 @@
               </button>
             </form>
             @end
-
             {{-- Like button --}}
             @if(await auth.user.hasTweetLikes(tweet.id))
             <form action="{{ route('likedestroy', [tweet.id], {qs: {'_method':'DELETE'}}) }}" method="post">

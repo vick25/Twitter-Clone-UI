@@ -36,18 +36,23 @@ router.group(
     }
 ).prefix('api/v1/')
 
-router.get('/', [HomeController, 'index']).as('home').use(middleware.auth())
-router.post('/', [PostController, 'store']).as('tweet').use(middleware.auth())
-router.on('/tweet').redirect('/')
-router.get('/profile/:username?', [ProfileController, 'show']).as('profile')
-router.get('/profile/:username/edit', [ProfileController, 'edit']).as('editprofile').use(middleware.auth())
+router.group(
+    () => {
+        router.get('/', [HomeController, 'index']).as('home')
 
-router.post('/follows/:id/follow', [UserFollowsController, 'store']).use(middleware.auth()).as('follow')
-router.post('/tweets/:id/like', [TweetLikesController, 'store']).use(middleware.auth()).as('like')
-router.delete('/tweets/:id/like', [TweetLikesController, 'destroy']).use(middleware.auth()).as('likedestroy')
-router.post('/tweets/:id/retweet', [TweetRetweetsController, 'store']).use(middleware.auth()).as('retweet')
-router.delete('/tweets/:id/retweet', [TweetRetweetsController, 'destroy']).use(middleware.auth()).as('retweetdestroy')
-router.post('/tweets/:id/comment', [TweetCommentsController, 'store']).use(middleware.auth()).as('comment')
+        router.get('/tweets/:id/status', [PostController, 'index'])
+        router.post('/', [PostController, 'store']).as('tweet')
+        router.get('/profile/:username/edit', [ProfileController, 'edit']).as('editprofile')
+        router.post('/follows/:id/follow', [UserFollowsController, 'store']).as('follow')
+
+        router.post('/tweets/:id/like', [TweetLikesController, 'store']).as('like')
+        router.delete('/tweets/:id/like', [TweetLikesController, 'destroy']).as('likedestroy')
+        router.post('/tweets/:id/retweet', [TweetRetweetsController, 'store']).as('retweet')
+        router.delete('/tweets/:id/retweet', [TweetRetweetsController, 'destroy']).as('retweetdestroy')
+        router.post('/tweets/:id/comment', [TweetCommentsController, 'store']).as('comment')
+    }
+).use(middleware.auth())
+router.get('/profile/:username?', [ProfileController, 'show']).as('profile')
 
 router.group(
     () => {
