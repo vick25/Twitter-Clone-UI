@@ -1,19 +1,11 @@
-import { tweets, users } from '../../utils/samples.js';
+import Tweet from '#models/tweet';
 export default class HomeController {
     async index({ view }) {
-        const currentUser = users[0];
-        return view.render('pages/home', { tweets, currentUser, users });
-    }
-    async store({ request, response }) {
-        try {
-            const tweet = request.body().tweet;
-            if (tweet.trim() !== '')
-                tweets.push({ id: tweets.length + 1, content: tweet, createdAt: new Date(), user: users[0].id });
-            response.redirect('/');
-        }
-        catch (error) {
-            response.redirect('/');
-        }
+        const tweets = await Tweet.query().orderBy('created_at', 'desc').preload('user')
+            .withCount('tweetLikes')
+            .withCount('tweetRetweets')
+            .withCount('tweetComments');
+        return view.render('pages/home', { tweets });
     }
 }
 //# sourceMappingURL=home_controller.js.map

@@ -5,7 +5,7 @@ import { defineConfig } from '@adonisjs/core/http';
 export const appKey = new Secret(env.get('APP_KEY'));
 export const http = defineConfig({
     generateRequestId: true,
-    allowMethodSpoofing: false,
+    allowMethodSpoofing: true,
     useAsyncLocalStorage: false,
     cookie: {
         domain: '',

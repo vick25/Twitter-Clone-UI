@@ -1,18 +1,49 @@
-import { tweets, users } from '../../utils/samples.js';
-function getTweetsForUser(userId) {
-    const userTweets = tweets.filter(tweet => tweet.user === userId);
-    return userTweets.reverse();
-}
+import Tweet from '#models/tweet';
+import User from '#models/user';
+import UserFollow from '#models/user_follow';
 export default class ProfileController {
-    async show({ params, view }) {
+    async show({ params, request, view, auth }) {
+        let { follow } = request.qs();
         const username = params?.username;
-        let user;
-        if (username)
-            user = users.find(u => u.username === username);
-        else
-            user = users[0];
-        const userTweets = getTweetsForUser(user?.id);
-        return view.render('pages/profile', { user, userTweets });
+        if (!(await auth.check())) {
+            return 'User is not authenticated';
+        }
+        const profileUser = username ? await User.query().where('username', username).firstOrFail()
+            : auth.user;
+        const userTweets = await Tweet.query()
+            .where('user_id', profileUser?.id ?? 0)
+            .preload('user')
+            .orderBy('created_at', 'desc');
+        if (follow === 'false') {
+            await UserFollow.query().delete()
+                .where('follower_id', auth.user.id)
+                .where('following_id', profileUser.id);
+        }
+        const existingFollow = await UserFollow.query()
+            .where('follower_id', auth.user.id)
+            .where('following_id', profileUser.id)
+            .first();
+        if (existingFollow) {
+            follow = 'true';
+        }
+        const followersCount = await UserFollow.query()
+            .where('following_id', profileUser.id)
+            .count('* as count')
+            .first();
+        const followingCount = await UserFollow.query()
+            .where('follower_id', profileUser.id)
+            .count('* as count')
+            .first();
+        const userFollows = {
+            followersCount: followersCount?.$extras.count,
+            followingCount: followingCount?.$extras.count
+        };
+        return view.render('pages/profile', { profileUser, userTweets, follow, userFollows });
+    }
+    async edit({ params, response }) {
+        const username = params?.username;
+        console.log(username);
+        return response.redirect().withQs({ username }).toPath('/');
     }
 }
 //# sourceMappingURL=profile_controller.js.map

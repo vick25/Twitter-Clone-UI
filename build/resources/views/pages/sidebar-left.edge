@@ -1,55 +1,79 @@
+@eval(await auth.check())
 <div class="sticky grid grid-rows-[auto_1fr_auto] place-items-start h-[93dvh] top-8">
-    <div class="w-full p-4"><a href="/"><img src="/resources/images/x.png" class="grayscale" alt="X"></a></div>
+    <div class="w-full p-4">
+        <a href="/">
+            <svg xmlns="http://www.w3.org/2000/svg" alt="Twitter" class="w-8 h-8" viewBox="0 0 12 12">
+                <path fill="currentColor"
+                    d="M.076 0H3.61l3.145 4.498L10.53 0h1.129L7.185 5.114L12 12H8.468L5.183 7.303L1.128 12H0l4.753-5.312z" />
+            </svg>
+        </a>
+    </div>
 
     <div class="w-full p-2 flex flex-col space-y-6 justify-between">
         <ul role="menu" class="flex flex-col space-y-2 text-md font-bold">
             <li class="p-2 hover:bg-gray-800 rounded-lg cursor-pointer">
                 <a href="/" class="flex items-center gap-4">
-                    <span><img src="/resources/images/home.png" class="grayscale" alt="Home"></span>
+                    <span><img src="/home.png" class="grayscale" alt="Home"></span>
                     Home
                 </a>
             </li>
             <li class="p-2 hover:bg-gray-800 rounded-lg cursor-pointer">
                 <a href="{{route('profile')}}" class="flex items-center gap-4">
-                    <span><img src="/resources/images/profile.png" alt="profile"></span>
+                    <span><img src="/profile.png" alt="profile"></span>
                     Profile
                 </a>
             </li>
         </ul>
         <div class="w-full">
-            <form action="/tweet" method="get" class="flex justify-center">
-                <button data-modal-target="default-modal" data-modal-toggle="default-modal"
+            {{-- <form action="/tweet" method="get" class="flex justify-center"> --}}
+                <button id="openModalPostBtn"
                     class="w-full block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-bold rounded-full text-lg px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     type="button">
-                    Tweet
+                    Post
                 </button>
-                {{-- <button type="submit"
-                    class="w-full my-8 bg-[#1D9BF0] hover:bg-blue-600 text-white rounded-full p-4 font-bold text-xl">
-                    Tweet
-                </button> --}}
-            </form>
+                {{--
+            </form> --}}
         </div>
+
+        {{-- @if(auth.user)
+        <form class="flex items-center justify-between space-x-2" action="/auth/logout?_method=DELETE" method="post">
+            {{csrfField()}}
+            <div>{{`@${ auth.user.handle}`}}</div>
+            <button href="{{ route('logout') }}" class="flex items-center space-x-1">
+                Logout
+            </button>
+        </form>
+        @end --}}
     </div>
 
-    <div class="w-full flex items-center justify-between hover:bg-gray-800 rounded-full cursor-pointer p-2 text-white">
-        <img src="profile.jpg" alt="User Avatar" class="w-10 h-10 rounded-full grayscale">
-        <div class="ml-2">
-            <div class="flex items-center space-x-1">
-                <span class="font-semibold text-gray-300">Victor Kadiata</span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"
-                    class="w-4 h-4 text-gray-400">
-                    <path
-                        d="M12 2a5 5 0 0 1 5 5v1h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1V7a5 5 0 0 1 5-5zm3 6V7a3 3 0 1 0-6 0v1zm3 2H6v8h12z" />
-                </svg>
-            </div>
-            <p class="text-gray-500">@vickad25</p>
+
+    <div class="relative w-full">
+        <div id="logoutModal"
+            class="absolute -top-32 mt-2 w-full bg-gray-900 text-white rounded-lg shadow-lg border border-gray-700 p-2 hidden">
+            <a href="auth/register" class="block w-full text-left px-4 py-2 hover:bg-gray-700 rounded">Add an existing
+                account</a>
+            <a href="{{ route('logout') }}" class="block w-full text-left px-4 py-2 hover:bg-gray-700 rounded">Log out
+                {{ auth.user?.handle }}</a>
         </div>
-        <div class="ml-auto text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
-                <circle cx="12" cy="12" r="2" />
-                <circle cx="19" cy="12" r="2" />
-                <circle cx="5" cy="12" r="2" />
-            </svg>
+        <div
+            class="w-full flex items-center justify-between hover:bg-gray-800 rounded-full cursor-pointer p-2 text-white">
+            <button id="toggleModal" class="flex items-center space-x-2">
+                <img src="/avatar.webp" alt="User Avatar" class="w-10 h-10 rounded-full grayscale">
+                <div class="ml-2">
+                    <div class="flex items-center space-x-1">
+                        <span class="font-semibold text-gray-300">{{`${auth.user?.firstname}
+                            ${auth.user?.lastname}`}}</span>
+                    </div>
+                    <p class="text-gray-500">{{auth.user?.handle}}</p>
+                </div>
+                <div class="pl-4 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5">
+                        <circle cx="12" cy="12" r="2" />
+                        <circle cx="19" cy="12" r="2" />
+                        <circle cx="5" cy="12" r="2" />
+                    </svg>
+                </div>
+            </button>
         </div>
     </div>
 </div>

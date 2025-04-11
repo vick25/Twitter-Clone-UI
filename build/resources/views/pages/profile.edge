@@ -1,4 +1,5 @@
 @layout.app({title : 'Profile'})
+@eval(await auth.check())
 <div class="flex flex-col space-y-0">
     <div class="sticky top-0 z-10 bg-gray-900 border-b-[1px] border-gray-600">
         <div class="flex items-center space-x-4 px-4 border-b">
@@ -11,33 +12,59 @@
                 </svg>
             </a>
             <div class="text-xl font-bold p-4">
-                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
+                <p>{{ `${profileUser?.firstname} ${profileUser?.lastname}` }}</p>
                 <p class="text-xs text-gray-500">{{ userTweets.length}} posts</p>
             </div>
         </div>
     </div>
     <div class="bg-gray-300 h-48 border-b">
-
     </div>
     <div class="relative text-white">
         <img class="absolute -translate-y-[50%] max-w-full left-8 w-32 h-32 object-cover rounded-full"
-            src="/resources/images/avatar.webp" alt="Profile picture">
+            src="/avatar.webp" alt="Profile picture">
+        @if(auth.user.username == profileUser.username)
         <div class="flex justify-end p-4">
-            <button
+            <button id="openDialogButton"
                 class="bg-transparent outline outline-offset-2 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full">Edit
                 profile</button>
         </div>
+        @else
+        <div class="flex justify-end p-4 mt-10">
+            <form action="{{ `/follows/${profileUser?.id}/follow` }}" method="post">
+                {{csrfField()}}
+                @if(!follow || follow === 'false')
+                <button type="submit"
+                    class="bg-transparent outline outline-offset-2 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full">Follow</button>
+                @else
+                <button type="submit"
+                    class="bg-blue-500 outline outline-offset-2 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">Unfollow</button>
+                @end
+            </form>
+        </div>
+        @end
         <div class="flex flex-col space-y-4 p-4">
             <div>
-                <p>{{ `${user?.firstname} ${user?.lastname}` }}</p>
-                <p class="text-xs text-gray-500">{{`@${user?.username}`}}</p>
+                <p class="font-bold text-xl">{{ `${profileUser?.firstname} ${profileUser?.lastname}` }}</p>
+                <p class="text-sm text-gray-500">{{`@${profileUser?.username}`}}</p>
             </div>
 
-            <p>{{user?.bio}}</p>
-            <p>{{user?.createdAt}}</p>
+            <p>{{profileUser?.bio || 'No biography.'}}</p>
+            <p class="text-sm text-gray-500 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="fill-white inline-block w-4 h-4 mr-1"
+                    viewBox="0 0 15 15">
+                    <path fill="currentColor" fill-rule="evenodd"
+                        d="M4.5 1a.5.5 0 0 1 .5.5V2h5v-.5a.5.5 0 0 1 1 0V2h1.5A1.5 1.5 0 0 1 14 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 1 12.5v-9A1.5 1.5 0 0 1 2.5 2H4v-.5a.5.5 0 0 1 .5-.5ZM10 3v.5a.5.5 0 0 0 1 0V3h1.5a.5.5 0 0 1 .5.5V5H2V3.5a.5.5 0 0 1 .5-.5H4v.5a.5.5 0 0 0 1 0V3h5ZM2 6v6.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V6H2Zm5 1.5a.5.5 0 1 1 1 0a.5.5 0 0 1-1 0ZM9.5 7a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1Zm1.5.5a.5.5 0 1 1 1 0a.5.5 0 0 1-1 0Zm.5 1.5a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1ZM9 9.5a.5.5 0 1 1 1 0a.5.5 0 0 1-1 0ZM7.5 9a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1ZM5 9.5a.5.5 0 1 1 1 0a.5.5 0 0 1-1 0ZM3.5 9a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1ZM3 11.5a.5.5 0 1 1 1 0a.5.5 0 0 1-1 0Zm2.5-.5a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1Zm1.5.5a.5.5 0 1 1 1 0a.5.5 0 0 1-1 0Zm2.5-.5a.5.5 0 1 0 0 1a.5.5 0 0 0 0-1Z"
+                        clip-rule="evenodd" />
+                </svg>
+                Joined {{profileUser?.createdAt.toLocaleString()}}
+            </p>
             <div class="flex space-x-4">
-                <p>Following</p>
-                <p>Followers</p>
+                <p><span class="text-md font-semibold">{{ userFollows.followingCount }}</span>&nbsp;<span
+                        class="text-sm font-semibold text-gray-500">Following</span>
+                </p>
+                <p><span class="text-md font-semibold">{{ userFollows.followersCount }}</span>&nbsp;<span
+                        class="text-sm font-semibold text-gray-500">Followers</span>
+                </p>
             </div>
         </div>
 
@@ -50,15 +77,179 @@
             @each(tweet in userTweets)
             <li class="border-b border-gray-800 pt-2 px-4 pb-6 hover:bg-gray-50/75">
                 <div class="flex w-full space-x-4">
-                    <img class="w-10 h-10 rounded" alt="Avatar">
+                    <img class="w-10 h-10 rounded" src="/avatar.webp" alt="Avatar">
                     <div class="flex-1 ml-3 space-y-1">
                         <p class="flex-1">{{ tweet.content }}</p>
-                        <p class="text-xs text-gray-500">{{ tweet.createdAt }}</p>
+                        <p class="text-xs text-gray-500">{{ tweet.createdAt.toRelative() }}</p>
                     </div>
                 </div>
             </li>
             @end
         </ul>
     </div>
+
+    {{-- <dialog id="dialog"
+        class="mt-8 rounded-xl bg-white p-6 shadow-3xl backdrop:bg-black/50 backdrop:backdrop-blur-md">
+        <p>Lorem ipsum dolor sit amet.</p>
+        <button id="close" class="mx-auto mt-4 table rounded bg-gray-200 px-4 py-2 text-sm font-bold">Close</button>
+    </dialog> --}}
+
+    <dialog id="dialog" class="fixed top-[5%] left-[50%] -translate-x-[50%] z-50 bg-black/50">
+        <form method="post" class="bg-white rounded-lg shadow-xl p-6 relative">
+            {{csrfField()}}
+            <button type="button" aria-label="close" id="close-dialog" formmethod="dialog" formnovalidate
+                class="absolute top-2 right-2 font-bold text-gray-700 hover:text-gray-800 focus:outline-none">Save</button>
+            <h2 id="dialogid" class="text-xl font-semibold mb-2">Edit profile</h2>
+            {{-- <p class="text-gray-700 mb-4">All fields are required</p> --}}
+            <p class="mb-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2">
+                    <input type="file" name="profilePictureUrl"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                </label>
+            </p>
+            <p class="mb-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Name:
+                    <input type="text" name="username" value="{{auth.user.username}}"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                </label>
+            </p>
+            <p class="mb-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Bio:
+                    <input type="text" name="biography" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                </label>
+            </p>
+            <p class="mb-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Location:
+                    <input type="text" name="location" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                </label>
+            </p>
+            <p class="mb-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Website:
+                    <input type="text" name="websiteUrl" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                </label>
+            </p>
+            <p class="mb-2">
+                <label class="block text-gray-700 text-sm font-bold mb-2">Date of birth:
+                    <input type="date" name="birthdate" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                </label>
+            </p>
+            <p class="mb-2 flex">
+                <input type="checkbox"
+                    class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                    id="profile-checkbox">
+                <label for="profile-checkbox" class="text-sm text-gray-500 ms-3 dark:text-neutral-700">Profile
+                    public</label>
+
+                {{-- <label class="block text-gray-700 text-sm font-bold mb-2">:
+                    <input type="checked" name="website" required
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                </label> --}}
+            </p>
+            <p class="mb-2 flex">
+                <input type="checkbox" name="contentPublic" id="content-checkbox" required
+                    class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
+                <label for="content-checkbox" class="text-sm text-gray-500 ms-3 dark:text-neutral-700">Content
+                    public</label>
+            </p>
+            <p class="mb-2 flex">
+                <input type="checkbox" name="emailPublic" id="email-checkbox" required
+                    class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
+                <label for="email-checkbox" class="text-sm text-gray-500 ms-3 dark:text-neutral-700">Email
+                    public</label>
+            </p>
+            <p class="my-4">
+                <button type="submit" formmethod="post"
+                    class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
+            </p>
+            <hr class="my-4" />
+
+            <div class="flex justify-end space-x-2">
+                <button id="close" type="button"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Close</button>
+                <button id="reset" type="reset"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Reset</button>
+            </div>
+            </p>
+        </form>
+    </dialog>
+
+    {{-- <dialog id="dialog">
+        <form>
+            <button type="submit" aria-label="close" formmethod="dialog" formnovalidate>X</button>
+            <h2 id="dialogid">MLW Registration</h2>
+            <p>All fields are required</p>
+            <p>
+                <label>Name:
+                    <input type="text" name="name" required />
+                </label>
+            </p>
+            <p>
+                <label>Warranty:
+                    <input type="number" min="0" max="10" step=”1” name="warranty" required />
+                </label>
+            </p>
+            <p>
+                <label>Power source:
+                    <select name="powersoure">
+                        <option>AC/DC</option>
+                        <option>Battery</option>
+                        <option>Solar</option>
+                    </select>
+                </label>
+            </p>
+            <p>
+                <button type="submit" formmethod="post">Submit</button>
+            </p>
+            <hr />
+            <p>Additional buttons</p>
+            <button id="jsbutton">JS close</button>
+            <button id="reset" type="reset">Reset</button>
+            </p>
+        </form>
+    </dialog> --}}
+    {{-- <dialog open id="dialog"
+        class="z-20 w-full h-screen fixed inset-0 flex justify-center items-center bg-black/50">
+        <form class="bg-white rounded-lg p-4 w-96 relative">
+            <!-- Close button (Built-in dialog close method) -->
+            <button type="button" id="close-dialog" aria-label="Close"
+                class="absolute top-2 right-2 bg-gray-200 rounded px-2 py-1">X</button>
+
+            <h2 id="dialogid">MLW Registration</h2>
+            <p>All fields are required</p>
+
+            <p>
+                <label>Name:
+                    <input type="text" name="name" required />
+                </label>
+            </p>
+            <p>
+                <label>Warranty:
+                    <input type="number" min="0" max="10" step="1" name="warranty" required />
+                </label>
+            </p>
+            <p>
+                <label>Power source:
+                    <select name="powersource">
+                        <option>AC/DC</option>
+                        <option>Battery</option>
+                        <option>Solar</option>
+                    </select>
+                </label>
+            </p>
+            <p>
+                <button type="submit" formmethod="post">Submit</button>
+            </p>
+            <hr />
+            <p>Additional buttons</p>
+
+            <!-- JS Close Button -->
+            <button id="jsbutton" type="button">JS Close</button>
+            <button id="reset" type="reset">Reset</button>
+        </form>
+    </dialog> --}}
 </div>
 @end

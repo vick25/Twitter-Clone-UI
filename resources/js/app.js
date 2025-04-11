@@ -1,3 +1,5 @@
+import '../css/app.css'
+
 const postListItems = document.querySelectorAll('[id ^= "item_"]')
 
 const toggleModalBtn = document.querySelector('#toggleModal');
