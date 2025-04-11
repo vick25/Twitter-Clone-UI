@@ -46,4 +46,9 @@ export default class Tweet extends BaseModel {
     pivotTimestamps: true
   })
   declare tweetComments: ManyToMany<typeof User>
+
+  async hasTweetComments(tweetId: number): Promise<boolean> {
+    const self = this as Tweet
+    return !!(await self.related('tweetComments').query().where('tweet_id', tweetId).first())
+  }
 }  
